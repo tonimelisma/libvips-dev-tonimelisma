@@ -9,13 +9,19 @@ RUN apt-get -y --no-install-recommends install \
 
 
 # Install the package we want to repackage
-RUN apt-get -y source libvips-dev && \
-    apt-get -y build-dep libvips-dev
+RUN apt-get -y source vips && \
+    apt-get -y build-dep vips
 
 # Install our own build dependencies
-RUN apt-get -y install libheif-dev
+#RUN apt-get -y install libheif-dev
 
-# dch -n
+# TODO
+# Needs editor
+# How to automate dch
+# Is debuild necessary
+# Move libheif to build dependencies definition in debian/control?
+
+# dch -n 
 # debuild -b -uc -us
 
 # equivs cdbs fakeroot dput

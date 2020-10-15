@@ -14,3 +14,4 @@ RUN apt-get -y build-dep vips && \
 
 ENV DEBFULLNAME="Toni Melisma"
 ENV DEBEMAIL="toni.melisma@iki.fi"
+ENV PPANAME="tonimelisma

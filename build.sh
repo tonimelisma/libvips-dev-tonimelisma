@@ -21,7 +21,7 @@ fi
 
 echo Building base image:
 
-docker build -t build-$PACKAGE:$DISTVERSION -f $DIR/Dockerfile-$PACKAGE-$DISTVERSION $DIR || echo build failed 1>&2 && exit 1
+docker build -t build-$PACKAGE:$DISTVERSION -f $DIR/Dockerfile-$PACKAGE-$DISTVERSION $DIR || (echo build failed 1>&2 && exit 1)
 
 echo
 

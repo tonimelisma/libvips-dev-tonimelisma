@@ -14,6 +14,11 @@ if [ -z "${DISTVERSION}" ]; then
 	exit 1
 fi
 
+if [ -z "${PACKAGE}" ]; then
+	echo Define environment variable PACKAGE "(e.g. vips)"
+	exit 1
+fi
+
 echo Building base image:
 
 docker build -t build-$PACKAGE:$DISTVERSION -f $DIR/Dockerfile-$PACKAGE-$DISTVERSION $DIR || echo build failed 1>&2 && exit 1

@@ -69,5 +69,9 @@ debuild -S -sd || exit 1
 cd ../..
 dput ppa:$PPANAME/ppa `find . -type f -name '*source.changes'`
 EOF
-
 gpg_clean
+
+echo -n Press enter to mark $NEWVERSION as successfully uploaded or Ctrl-C to abort:' '
+read
+
+echo $NEWVERSION > ~/.buildvers/$PACKAGE-$DISTRIBUTION

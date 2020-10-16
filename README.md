@@ -21,4 +21,4 @@ make a copy of the Dockerfile and change it to suit your build process. Then run
 
 `DISTRIBUTION=focal DISTVERSION=20.10 PACKAGE=vips bash build.sh`
 
-You can run this from cron daily (be sure to run it as your user account)
+You can run this from cron daily (be sure to run it as your personal user account)

@@ -50,7 +50,6 @@ clean_gpg() {
 	echo Cleaning GPG keys...
 	rm -f /tmp/volume-$PACKAGE-$DISTRIBUTION/keys.asc
 	rm -rf /tmp/volume-$PACKAGE-$DISTRIBUTION
-	exit
 }
 
 trap clean_gpg SIGINT SIGTERM EXIT
@@ -58,26 +57,7 @@ trap clean_gpg SIGINT SIGTERM EXIT
 mkdir -p /tmp/volume-$PACKAGE-$DISTRIBUTION
 gpg --export-secret-keys --armor >> /tmp/volume-$PACKAGE-$DISTRIBUTION/keys.asc || (echo "Couldn't write GPG keys" && exit 1)
 
-docker run --rm -i -v /tmp/volume-$PACKAGE-$DISTRIBUTION:/volume build-$PACKAGE:$DISTVERSION bash -s <<EOF
-gpg --import /volume/keys.asc || exit 1
-mkdir -p /tmp/build-$PACKAGE-$DISTRIBUTION-$DATE && cd /tmp/build-$PACKAGE-$DISTRIBUTION-$DATE
-apt-get -q -y source $PACKAGE || exit 1
-
-
-find . -mindepth 1 -maxdepth 1 -type d
-SRCDIR=\`find . -mindepth 1 -maxdepth 1 -type d\`
-echo What
-echo Source dir is $SRCIDR
-cd $SRCDIR/debian || exit 1
-
-cat control | sed 's/^Build-Depends: /Build-Depends: libheif-dev, /' > control.new
-mv control.new control
-
-dch --local tonimelisma --distribution $DISTRIBUTION 'Add HEIF support' || exit 1
-debuild -S -sd || exit 1
-cd ../..
-dput ppa:$PPANAME/ppa `find . -type f -name '*source.changes'`
-EOF
+docker run --rm -i -e DATE=$DATE -v /tmp/volume-$PACKAGE-$DISTRIBUTION:/volume build-$PACKAGE:$DISTVERSION bash /within_container-$PACKAGE.sh
 clean_gpg
 
 echo -n Press enter to mark $NEWVERSION as successfully uploaded or Ctrl-C to abort:' '

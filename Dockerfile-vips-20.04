@@ -15,3 +15,9 @@ RUN apt-get -y build-dep vips && \
 ENV DEBFULLNAME="Toni Melisma"
 ENV DEBEMAIL="toni.melisma@iki.fi"
 ENV PPANAME="tonimelisma"
+ENV DISTRIBUTION="focal"
+ENV DISTVERSION="20.04"
+ENV PACKAGE="vips"
+
+COPY within_container-vips.sh /
+RUN chmod +x /within_container-vips.sh
